@@ -1,3 +1,4 @@
+import 'package:any_questions/custom_widgets/my_widgets.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,6 @@ class SummaryPage extends StatefulWidget {
   @override
   State<SummaryPage> createState() => _SummaryPageState();
 }
-
 
 class _SummaryPageState extends State<SummaryPage> {
   @override
@@ -23,12 +23,34 @@ class _SummaryPageState extends State<SummaryPage> {
           style: AppTheme.appBarHeaderFontStyle,
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.backgroundColor,
-        ),
-        child: Text("Summary")
-
+      body: Column(
+        children: [
+          Flexible(
+            flex: 10,
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppTheme.backgroundColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: ListView(
+                  children: const <QuestionAnswerCard> [
+                    QuestionAnswerCard(question: "Who is the best dog?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const Flexible(
+            flex: 1,
+              child: Text("Download")
+          )
+        ],
       ),
     );
   }

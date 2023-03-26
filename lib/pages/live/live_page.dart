@@ -1,5 +1,6 @@
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 class LivePage extends StatefulWidget {
@@ -20,6 +21,14 @@ class _LivePageState extends State<LivePage> {
           "Live",
           style: AppTheme.appBarHeaderFontStyle,
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              context.go('/');
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[

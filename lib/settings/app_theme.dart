@@ -8,6 +8,7 @@ class AppTheme {
   static Color backgroundColor = const Color(0xE0E0E0FF);
   static Color appBarColor = const Color(0xFF0E5069);
   static Color bottomNavBarColor = const Color(0xFF0E5069);
+  static Color summaryQAColor = const Color(0xFFEFCEB0);
 
   static Color appBarHeaderFontColor = const Color(0xFFFFFFFF);
   static Color basicTextFontColor = const Color(0xFF000000);
