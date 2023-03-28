@@ -32,7 +32,7 @@ class AppTheme {
           fontWeight: FontWeight.w400));
   static TextStyle buttonFontStyle = GoogleFonts.varelaRound(
     textStyle: TextStyle(
-        color: Colors.white,
+        color: AppTheme.secondColor,
         fontSize: 18,
         fontWeight: FontWeight.bold),
   );

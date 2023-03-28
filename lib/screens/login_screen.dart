@@ -25,10 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: AppTheme.appBarColor,
         centerTitle: true,
-        title: Text(
-          "Login",
-          style: AppTheme.appBarHeaderFontStyle
-        ),
+        // title: Text(
+        //   "Login",
+        //   style: AppTheme.appBarHeaderFontStyle
+        // ),
       ),
       body: SingleChildScrollView(
         child: Center(
