@@ -175,3 +175,61 @@ class PopUpMen extends StatelessWidget {
 }
 
 
+
+class DialogTextButton extends StatelessWidget {
+  const DialogTextButton({Key? key, required this.text, required this.style, required this.borderColor, required this.isTrue}) : super(key: key);
+
+  final String text;
+  final TextStyle style;
+  final Color borderColor;
+  final bool isTrue;
+
+  @override
+  Widget build(BuildContext context){
+    return TextButton(
+      onPressed: () => Navigator.of(context).pop(isTrue),
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: borderColor)
+              )
+          )
+      ),
+      child: Text(
+        text,
+        style: style,
+      ),
+    );
+  }
+}
+
+
+
+
+
+class ExitAppAlertDialog extends StatelessWidget {
+  const ExitAppAlertDialog({Key? key, required this.title, required this.content}) : super(key: key);
+
+  final String title;
+  final String content;
+
+  @override
+  Widget build(BuildContext context){
+    return AlertDialog(
+      title: Text(title,
+        style: AppTheme.dialogTitleFontStyle,),
+      content: Text(
+        content,
+        style: AppTheme.basicTextFontStyle,
+      ),
+      shape: const RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.all(Radius.circular(16.0))),
+      actions: [
+        DialogTextButton(text: 'No', style: AppTheme.basicTextFontStyle, borderColor: AppTheme.secondColor, isTrue: false,),
+        DialogTextButton(text: 'Yes', style: AppTheme.basicTextFontStyle, borderColor: AppTheme.secondColor, isTrue: true,),
+      ],
+    );
+  }
+}

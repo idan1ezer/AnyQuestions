@@ -36,5 +36,11 @@ class AppTheme {
         fontSize: 18,
         fontWeight: FontWeight.bold),
   );
+  static TextStyle dialogTitleFontStyle = GoogleFonts.varelaRound(
+    textStyle: TextStyle(
+        color: AppTheme.mainColor,
+        fontSize: 22,
+        fontWeight: FontWeight.bold),
+  );
 
 }

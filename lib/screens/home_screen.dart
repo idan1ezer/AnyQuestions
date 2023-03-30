@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../custom_widgets/my_widgets.dart';
 import '../pages/live/live_page.dart';
 import '../pages/my_courses/courses_page.dart';
 
@@ -35,18 +36,32 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  Future<bool> showExitPopup() async {
+    return await showDialog(
+      //show confirm dialogue
+      //the return value will be from "Yes" or "No" options
+      context: context,
+      builder: (context) =>
+          const ExitAppAlertDialog(title: 'Exit App', content: 'Are you sure you want to close AnyQuestions?'),
+    ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ValueListenableBuilder(
-        valueListenable: pageIndex,
-        builder: (BuildContext context, int value, _) {
-          return pages[value];
-        },
-      ),
-      bottomNavigationBar: _BottomNavigationBar(
-          onItemSelected: _onNavigationItemSelected,
+    return WillPopScope(
+      onWillPop: showExitPopup,
+      child: Scaffold(
+        body: ValueListenableBuilder(
+          valueListenable: pageIndex,
+          builder: (BuildContext context, int value, _) {
+            return pages[value];
+          },
         ),
+        bottomNavigationBar: _BottomNavigationBar(
+            onItemSelected: _onNavigationItemSelected,
+          ),
+      ),
     );
   }
 }
@@ -61,7 +76,7 @@ class _BottomNavigationBar extends StatefulWidget {
 }
 
 class _BottomNavigationBarState extends State<_BottomNavigationBar> {
-  var selectedIndex = 1;
+  var selectedIndex = 0;
 
   void handleItemSelected(int index) {
     setState(() {
