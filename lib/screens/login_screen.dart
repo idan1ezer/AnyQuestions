@@ -1,10 +1,16 @@
+import 'package:any_questions/services/aq_service.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../custom_widgets/my_widgets.dart';
+
+
+bool isConnected = false;
+String role = "LECTURER";
 
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  AQService http = AQService();
   final userNameCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
 
@@ -128,6 +134,30 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+
+
+
+
+  Future<void> login(String userNameCtrl, String passwordCtrl) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(child: CircularProgressIndicator());
+        });
+
+    try {
+      await http.getUser(userNameCtrl, passwordCtrl);
+    } catch (err) {
+      Navigator.of(context).pop();
+    }
+
+    if (isConnected) {
+      Fluttertoast.showToast(msg: "Logged in successfully!");
+      Navigator.of(context).pop();
+      return context.go('/home_screen');
+    }
   }
 
 
