@@ -4,10 +4,14 @@ import 'package:go_router/go_router.dart';
 import '../settings/app_theme.dart';
 
 class QuestionAnswerCard extends StatelessWidget {
-  const QuestionAnswerCard({Key? key, required this.question, required this.answer}) : super(key: key);
+  QuestionAnswerCard({Key? key, required this.question, required this.answer, this.isLecturer = false}) : super(key: key);
 
   final String question;
   final String answer;
+  final bool isLecturer;
+  final textFormKey = GlobalKey<FormState>();
+  final TextEditingController textQuestionCtrl = TextEditingController();
+  final TextEditingController textAnswerCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context){
@@ -50,15 +54,129 @@ class QuestionAnswerCard extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
-              top: 0,
-              right: 2,
-              child: IconButton(
-                icon: Icon(Icons.edit, size: 18,),
-                onPressed: () {
-                  // handle edit button press
-                },
-              ),
+            Container(
+              child: isLecturer ? Positioned(
+                top: 0,
+                right: 2,
+                child: IconButton(
+                  icon: Icon(Icons.edit, size: 18,),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      scrollable: true,
+                      title: Text(
+                        'Edit Text',
+                        style: AppTheme.dialogTitleFontStyle,
+                        ),
+                      content: Column(
+                        children: [
+                          Text(
+                            'Here you can edit the Q&A',
+                            style: AppTheme.basicTextFontStyle,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Form(
+                            key: textFormKey,
+                            child: Column(
+                              children: [
+                                Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  border: Border.all(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: TextFormField(
+                                  // textDirection: TextDirection.rtl,
+                                  controller: textQuestionCtrl,
+                                  maxLines: 8,
+                                  decoration: InputDecoration(
+                                    alignLabelWithHint: true,
+                                    border: InputBorder.none,
+                                    hintText: "Question",
+                                    hintStyle: AppTheme.lightFontStyle,
+                                  ),
+                                ),
+                          ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    border: Border.all(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: TextFormField(
+                                    // textDirection: TextDirection.rtl,
+                                    controller: textAnswerCtrl,
+                                    maxLines: 8,
+                                    decoration: InputDecoration(
+                                      alignLabelWithHint: true,
+                                      border: InputBorder.none,
+                                      hintText: "Answer",
+                                      hintStyle: AppTheme.lightFontStyle,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                              // int isTextChanged = await http.updateQA(textQuestionCtrl.text, textAnswerCtrl.text);
+                              // if (isTextChanged == 200) {
+                              //   textQuestionCtrl.clear();
+                              //   textAnswerCtrl.clear();
+                              //   Navigator.pop(context);
+                              // }
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: AppTheme.mainColor)
+                                  )
+                              )
+                          ),
+                          child: Text(
+                            'Apply',
+                            style: AppTheme.buttonFontStyle,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            textQuestionCtrl.clear();
+                            textAnswerCtrl.clear();
+                            Navigator.pop(context, 'Cancel');
+                          },
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(color: AppTheme.mainColor)
+                                  )
+                              )
+                          ),
+                          child: Text(
+                            'Cancel',
+                            style: AppTheme.buttonFontStyle,
+                          ),
+                        ),
+                      ],
+                      // actionsAlignment: MainAxisAlignment.start,
+                    ),
+                  ),
+                ),
+              ) : null,
             ),
           ],
         )

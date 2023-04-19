@@ -1,6 +1,10 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 
 class LivePage extends StatefulWidget {
@@ -8,9 +12,39 @@ class LivePage extends StatefulWidget {
 
   @override
   State<LivePage> createState() => _LivePageState();
+
 }
 
 class _LivePageState extends State<LivePage> {
+
+  late PusherChannelsFlutter pusher;
+  String _log = 'output:\n';
+  final _listViewController = ScrollController();
+  final _eventFormKey = GlobalKey<FormState>();
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Pusher
+    pusher = PusherChannelsFlutter.getInstance();
+    initPusher();
+  }
+
+
+  void log(String text) {
+    print("LOG: $text");
+    setState(() {
+      _log += text + "\n";
+      Timer(
+          const Duration(milliseconds: 100),
+              () => _listViewController
+              .jumpTo(_listViewController.position.maxScrollExtent));
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +64,119 @@ class _LivePageState extends State<LivePage> {
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-        ],
-      ),
+      body: ListView(
+          controller: _listViewController,
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: <Widget>[
+            if (pusher.connectionState == 'CONNECTED')
+              Form(
+                key: _eventFormKey,
+                child: Column(children: <Widget>[
+                  ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: pusher
+                          .channels["any-questions-live"]?.members.length,
+                      itemBuilder: (context, index) {
+                        final member = pusher
+                            .channels["any-questions-live"]!.members.values
+                            .elementAt(index);
+
+                        return ListTile(
+                            title: Text(member.userInfo.toString()),
+                            subtitle: Text(member.userId));
+                      }),
+                ]),
+              ),
+            SingleChildScrollView(
+                scrollDirection: Axis.vertical, child: Text(_log)),
+          ]),
     );
   }
+
+
+
+
+  void initPusher() async {
+    // if (!_channelFormKey.currentState!.validate()) {
+    //   return;
+    // }
+    // Remove keyboard
+    // FocusScope.of(context).requestFocus(FocusNode());
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString("apiKey", _apiKey.text);
+    // prefs.setString("cluster", _cluster.text);
+    // prefs.setString("channelName", _channelName.text);
+
+    try {
+      await pusher.init(
+        apiKey: "9384caa97e98baaa0493",
+        cluster: "eu",
+        onConnectionStateChange: onConnectionStateChange,
+        onError: onError,
+        onSubscriptionSucceeded: onSubscriptionSucceeded,
+        onEvent: onEvent,
+        onSubscriptionError: onSubscriptionError,
+        onDecryptionFailure: onDecryptionFailure,
+        onMemberAdded: onMemberAdded,
+        onMemberRemoved: onMemberRemoved,
+        onSubscriptionCount: onSubscriptionCount,
+      );
+      await pusher.subscribe(channelName: "any-questions-live");
+      await pusher.connect();
+    } catch (e) {
+      log("ERROR: $e");
+    }
+  }
+
+
+  void onConnectionStateChange(dynamic currentState, dynamic previousState) {
+    log("Connection: $currentState");
+  }
+
+  void onError(String message, int? code, dynamic e) {
+    log("onError: $message code: $code exception: $e");
+  }
+
+  void onEvent(PusherEvent event) {
+    log("onEvent: $event");
+  }
+
+  void onSubscriptionSucceeded(String channelName, dynamic data) {
+    log("onSubscriptionSucceeded: $channelName data: $data");
+    final me = pusher.getChannel(channelName)?.me;
+    log("Me: $me");
+  }
+
+  void onSubscriptionError(String message, dynamic e) {
+    log("onSubscriptionError: $message Exception: $e");
+  }
+
+  void onDecryptionFailure(String event, String reason) {
+    log("onDecryptionFailure: $event reason: $reason");
+  }
+
+  void onMemberAdded(String channelName, PusherMember member) {
+    log("onMemberAdded: $channelName user: $member");
+  }
+
+  void onMemberRemoved(String channelName, PusherMember member) {
+    log("onMemberRemoved: $channelName user: $member");
+  }
+
+  void onSubscriptionCount(String channelName, int subscriptionCount) {
+    log("onSubscriptionCount: $channelName subscriptionCount: $subscriptionCount");
+  }
+
+  dynamic onAuthorizer(String channelName, String socketId, dynamic options) {
+    return {
+      "auth": "foo:bar",
+      "channel_data": '{"user_id": 1}',
+      "shared_secret": "foobar"
+    };
+  }
+
+
+
 }

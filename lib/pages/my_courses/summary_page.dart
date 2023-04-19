@@ -34,7 +34,7 @@ class _SummaryPageState extends State<SummaryPage> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: ListView(
-                  children: const <QuestionAnswerCard> [
+                  children: <QuestionAnswerCard> [
                     QuestionAnswerCard(question: "Who is the best dog?", answer: "Luis the beagle! \nThe one and only \nI know...",),
                     QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
                     QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),

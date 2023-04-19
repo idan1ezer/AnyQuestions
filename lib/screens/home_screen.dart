@@ -8,7 +8,6 @@ import '../pages/live/live_page.dart';
 import '../pages/my_courses/courses_page.dart';
 
 
-
 class HomeScreen extends StatefulWidget {
   static Route get route => MaterialPageRoute(
     builder: (context) => HomeScreen(),
