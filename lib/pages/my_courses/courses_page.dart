@@ -40,13 +40,13 @@ class _CoursesPageState extends State<CoursesPage> {
           padding: const EdgeInsets.only(top: 20),
           child: ListView(
             children: const [
-              AnyQuestionsListTile(
+              AnyQuestionsCourseListTile(
                   title: "Algebra",
                   subtitle: "Dr. Patrick",
                   keyParam: "classID",
                   selectedLectureID: "Class Algebra",
                   goToLocation: "class_lectures"),
-              AnyQuestionsListTile(
+              AnyQuestionsCourseListTile(
                   title: "Computer Vision",
                   subtitle: "Dr. Joey",
                   keyParam: "classID",

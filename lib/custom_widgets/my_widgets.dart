@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../settings/app_theme.dart';
 
 class QuestionAnswerCard extends StatelessWidget {
-  QuestionAnswerCard({Key? key, required this.question, required this.answer, this.isLecturer = false}) : super(key: key);
+  QuestionAnswerCard({Key? key, required this.question, required this.answer, this.isLecturer = true}) : super(key: key);
 
   final String question;
   final String answer;
@@ -190,7 +190,58 @@ class QuestionAnswerCard extends StatelessWidget {
 
 
 class AnyQuestionsListTile extends StatelessWidget {
-  const AnyQuestionsListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation, this.isLecturer = false}) : super(key: key);
+  const AnyQuestionsListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation, this.isLecturer = true}) : super(key: key);
+
+  final bool isLecturer;
+  final String title;
+  final String subtitle;
+  final String keyParam;
+  final String selectedLectureID;
+  final String goToLocation;
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 3),
+      child: Card(
+        child: ListTile(
+          title: Text(
+            title,
+            style: AppTheme.basicTextFontStyle,
+          ),
+          subtitle: Text(
+            subtitle,
+            style: AppTheme.lightFontStyle,
+          ),
+          trailing: IconButton(onPressed: () {
+                  context.go(
+                    context.namedLocation(goToLocation,
+                        queryParams: <String, String>{
+                          keyParam: selectedLectureID
+                        })
+                  );
+              }, icon: Icon(Icons.arrow_forward_ios)),
+          // onTap: () {
+          //   // print(isLecturer);
+          //   // isLecturer ? PopUpMen(menuList: [],) :
+          //
+          //
+          //   context.go(
+          //     context.namedLocation(goToLocation,
+          //         queryParams: <String, String>{
+          //           keyParam: selectedLectureID
+          //         })
+          //   );
+          // },
+        ),
+      ),
+    );
+  }
+}
+
+
+class AnyQuestionsCourseListTile extends StatelessWidget {
+  const AnyQuestionsCourseListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation, this.isLecturer = true}) : super(key: key);
 
   final bool isLecturer;
   final String title;
@@ -220,8 +271,15 @@ class AnyQuestionsListTile extends StatelessWidget {
               PopupMenuButton<String>(
                 icon: Icon(Icons.arrow_forward_ios),
                 onSelected: (String value) {
+                  context.go(
+                      context.namedLocation(goToLocation,
+                          queryParams: <String, String>{
+                            keyParam: selectedLectureID
+                          })
+                  );
                   // handle menu item selection
                 },
+                // IS_LECTURER NEED TO BE DIFF CUZ IT APPEARS ON BOTH COURSES AND LECTURES INSTEAD OF JUST COURSES
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                   PopupMenuItem<String>(
                     value: 'Edit',
@@ -235,14 +293,14 @@ class AnyQuestionsListTile extends StatelessWidget {
               ),
             ],
           ) :
-              IconButton(onPressed: () {
-                  context.go(
-                    context.namedLocation(goToLocation,
-                        queryParams: <String, String>{
-                          keyParam: selectedLectureID
-                        })
-                  );
-              }, icon: Icon(Icons.arrow_forward_ios)),
+          IconButton(onPressed: () {
+            context.go(
+                context.namedLocation(goToLocation,
+                    queryParams: <String, String>{
+                      keyParam: selectedLectureID
+                    })
+            );
+          }, icon: Icon(Icons.arrow_forward_ios)),
           // onTap: () {
           //   // print(isLecturer);
           //   // isLecturer ? PopUpMen(menuList: [],) :
