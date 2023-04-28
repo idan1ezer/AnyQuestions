@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/login_screen.dart';
 import '../settings/app_theme.dart';
 
 class QuestionAnswerCard extends StatelessWidget {
-  QuestionAnswerCard({Key? key, required this.question, required this.answer, this.isLecturer = true}) : super(key: key);
+  QuestionAnswerCard({Key? key, required this.question, required this.answer}) : super(key: key);
 
   final String question;
   final String answer;
-  final bool isLecturer;
+  final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
   final textFormKey = GlobalKey<FormState>();
   final TextEditingController textQuestionCtrl = TextEditingController();
   final TextEditingController textAnswerCtrl = TextEditingController();
 
+
   @override
   Widget build(BuildContext context){
+    textQuestionCtrl.text = question;
+    textAnswerCtrl.text = answer;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 30),
       child: Card(
@@ -190,9 +195,9 @@ class QuestionAnswerCard extends StatelessWidget {
 
 
 class AnyQuestionsListTile extends StatelessWidget {
-  const AnyQuestionsListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation, this.isLecturer = true}) : super(key: key);
+  AnyQuestionsListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation}) : super(key: key);
 
-  final bool isLecturer;
+  final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
   final String title;
   final String subtitle;
   final String keyParam;
@@ -241,9 +246,9 @@ class AnyQuestionsListTile extends StatelessWidget {
 
 
 class AnyQuestionsCourseListTile extends StatelessWidget {
-  const AnyQuestionsCourseListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation, this.isLecturer = true}) : super(key: key);
+  AnyQuestionsCourseListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation}) : super(key: key);
 
-  final bool isLecturer;
+  final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
   final String title;
   final String subtitle;
   final String keyParam;

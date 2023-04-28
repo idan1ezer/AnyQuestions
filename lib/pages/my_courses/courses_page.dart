@@ -1,3 +1,4 @@
+import 'package:any_questions/screens/home_screen.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _CoursesPageState extends State<CoursesPage> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: ListView(
-            children: const [
+            children: [
               AnyQuestionsCourseListTile(
                   title: "Algebra",
                   subtitle: "Dr. Patrick",

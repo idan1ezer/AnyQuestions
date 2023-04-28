@@ -18,7 +18,7 @@ class AQService {
   Future<void> getUser(String userName, String password) async {
     final response = await http.get(
       Uri.parse(
-          '${URL}anyquestions/users/login/${userName}/${password}'),
+          '${URL}anyQuestions/users/login/${userName}/${password}'),
       headers: <String, String>{
         'Accept': "application/json; charset=UTF-8",
       },
@@ -28,14 +28,19 @@ class AQService {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
+      print(response.statusCode.runtimeType);
       isConnected = true;
-      final body = json.decode(response.body);
+      // final body = json.decode(response.body);
 
-      if (body["role"] == "STUDENT") {
-        role = "STUDENT";
-      } else {
-        role = "LECTURER";
-      }
+      print("here");
+      sharedPreferences.setBool("isLecturer", false);
+      // print("body:" + body);
+      // if (body["role"] == "STUDENT") {
+      //   // sharedPreferences.setBool("isLecturer", false);
+      //   sharedPreferences.setBool("isLecturer", true);
+      // } else {
+      //   sharedPreferences.setBool("isLecturer", true);
+      // }
 
     } else {
       // If the server did not return a 200 OK response,
@@ -88,7 +93,7 @@ class AQService {
 
 String whichPlatform() {
   if (Platform.isIOS) {
-    return 'http://localhost:8085/';
+    return 'http://localhost:8082/';
   } // isAndroidOS
-  return 'http://10.0.2.2:8085/';
+  return 'http://10.0.2.2:8082/';
 }

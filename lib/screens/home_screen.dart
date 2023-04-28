@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   ValueNotifier<int> pageIndex = ValueNotifier(0);
   ValueNotifier<String> title = ValueNotifier("My Courses");
   final pages = [CoursesPage(), LivePage()];

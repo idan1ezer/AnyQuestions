@@ -33,7 +33,7 @@ class _ClassesPageState extends State<ClassesPage> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: ListView(
-            children: const <AnyQuestionsListTile>[
+            children: <AnyQuestionsListTile>[
               AnyQuestionsListTile(title: "Lecture 1", subtitle: "20/03/2023", keyParam: "lectureID", selectedLectureID: "lec1", goToLocation: "class_summaries"),
               AnyQuestionsListTile(title: "Lecture 2", subtitle: "24/03/2023", keyParam: "lectureID", selectedLectureID: "lec2", goToLocation: "class_summaries"),
             ],

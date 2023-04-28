@@ -4,13 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../custom_widgets/my_widgets.dart';
 
 
 bool isConnected = false;
-String role = "LECTURER";
+// String role = "LECTURER";
+late SharedPreferences sharedPreferences;
 
 
 class LoginScreen extends StatefulWidget {
@@ -24,6 +25,16 @@ class _LoginScreenState extends State<LoginScreen> {
   AQService http = AQService();
   final userNameCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    initSharedPreferences();
+  }
+
+  Future initSharedPreferences() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+  }
 
 
   Future<bool> showExitPopup() async {
@@ -117,10 +128,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // await login(userNameCtrl.text, passwordCtrl.text);
+                    await login(userNameCtrl.text, passwordCtrl.text);
                     // Navigator.of(context).pop();
-                    context.go('/home_screen');
-                    // setState(() {});
+                    // context.go('/home_screen');
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: AppTheme.mainColor),
                   child: Text(
@@ -155,8 +166,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isConnected) {
       Fluttertoast.showToast(msg: "Logged in successfully!");
-      Navigator.of(context).pop();
-      return context.go('/home_screen');
+      print(sharedPreferences.getBool("isLecturer"));
+      // Navigator.of(context).pop();
+      return context.go(
+        context.namedLocation('home',)
+      );
     }
   }
 

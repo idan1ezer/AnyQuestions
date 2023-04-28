@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:any_questions/custom_widgets/my_widgets.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+
+import '../../models/question_answer.dart';
 
 
 class LivePage extends StatefulWidget {
@@ -21,6 +24,8 @@ class _LivePageState extends State<LivePage> {
   String _log = 'output:\n';
   final _listViewController = ScrollController();
   final _eventFormKey = GlobalKey<FormState>();
+  List<QuestionAnswer> qaList = [QuestionAnswer(ID: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
+    QuestionAnswer(ID: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
 
 
   @override
@@ -33,6 +38,10 @@ class _LivePageState extends State<LivePage> {
 
 
   void log(String text) {
+
+    // need to implement here the new QA list API.
+
+
     print("LOG: $text");
     setState(() {
       _log += text + "\n";
@@ -64,34 +73,41 @@ class _LivePageState extends State<LivePage> {
           ),
         ],
       ),
-      body: ListView(
-          controller: _listViewController,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          children: <Widget>[
-            if (pusher.connectionState == 'CONNECTED')
-              Form(
-                key: _eventFormKey,
-                child: Column(children: <Widget>[
-                  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: pusher
-                          .channels["any-questions-live"]?.members.length,
-                      itemBuilder: (context, index) {
-                        final member = pusher
-                            .channels["any-questions-live"]!.members.values
-                            .elementAt(index);
+      body: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: ListView(
+            controller: _listViewController,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            children: <Widget>[
+              if (pusher.connectionState == 'CONNECTED')
+                Form(
+                  key: _eventFormKey,
+                  child: Column(children: <Widget>[
+                    ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        // itemCount: pusher
+                        //     .channels["any-questions-live"]?.members.length,
+                        itemCount: qaList.length,
+                        itemBuilder: (context, index) {
+                          // final member = pusher
+                          //     .channels["any-questions-live"]!.members.values
+                          //     .elementAt(index);
+                          final member = qaList.elementAt(index);
 
-                        return ListTile(
-                            title: Text(member.userInfo.toString()),
-                            subtitle: Text(member.userId));
-                      }),
-                ]),
-              ),
-            SingleChildScrollView(
-                scrollDirection: Axis.vertical, child: Text(_log)),
-          ]),
+                          return QuestionAnswerCard(
+                              question: member.question,
+                            answer: member.answer,
+                          );
+                        }),
+                  ]),
+                ),
+              // SingleChildScrollView(
+              //     scrollDirection: Axis.vertical, child: Text(_log)),
+
+            ]),
+      ),
     );
   }
 
