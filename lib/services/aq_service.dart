@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
+import 'package:faker/faker.dart';
+
 
 import '../models/course.dart';
 import '../screens/login_screen.dart';
@@ -269,8 +272,6 @@ class AQService {
     }
 ''';
 
-
-
     // Simulate network delay
     await Future.delayed(Duration(seconds: 2));
     return jsonData;
@@ -278,6 +279,33 @@ class AQService {
 
 
 
+
+
+
+
+
+  Future<String> loadQA() async {
+
+    final faker = Faker();
+    String question = faker.lorem.sentence();
+    String answer = faker.lorem.sentence();
+    String time = DateFormat('HH:mm').format(DateTime.now());
+
+    String jsonData = '''
+              {
+								"id": "22221102QA0",
+								"question": "$question",
+								"answer": "$answer",
+								"likes": 0,
+								"timestamp": "$time"
+							}
+    ''';
+
+
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 2));
+    return jsonData;
+  }
 
 
 

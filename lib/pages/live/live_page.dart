@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:any_questions/custom_widgets/my_widgets.dart';
+import 'package:any_questions/pages/my_courses/courses_page.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 import '../../models/question_answer.dart';
+import '../../services/aq_service.dart';
 
 
 class LivePage extends StatefulWidget {
@@ -24,8 +27,10 @@ class _LivePageState extends State<LivePage> {
   String _log = 'output:\n';
   final _listViewController = ScrollController();
   final _eventFormKey = GlobalKey<FormState>();
-  List<QuestionAnswer> qaList = [QuestionAnswer(id: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
-    QuestionAnswer(id: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
+  AQService aqService = AQService();
+  List<QuestionAnswer> qaList = [];
+  // List<QuestionAnswer> qaList = [QuestionAnswer(id: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
+  //   QuestionAnswer(id: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
 
 
   @override
@@ -40,9 +45,52 @@ class _LivePageState extends State<LivePage> {
   void log(String text) {
 
     // need to implement here the new QA list API.
-
-
     print("LOG: $text");
+
+    if (text.contains("eventName: new-question")) {
+      RegExp regExp = RegExp(r'"message": "');
+      Match? match = regExp.firstMatch(text);
+
+      if (match != null) {
+        int index = match.start + 12;
+        String lectureID = text.substring(index,text.length-18);
+        print(lectureID);
+
+        String courseID = lectureID.substring(0,4);
+        String groupID = lectureID.substring(0,6);
+
+        bool isLive;
+
+        if (courseList.any((course) => course.ID == courseID)) {
+          if (courseList.firstWhere((course) => course.ID == courseID).groups.any((group) => group.ID == groupID)) {
+            isLive = true;
+          }
+          else {
+            isLive = false;
+          }
+        }
+        else {
+          isLive = false;
+        }
+
+        if (isLive) {
+          aqService.loadQA().then((jsonString) {
+            final dynamic qa = json.decode(jsonString);
+            setState(() {
+                QuestionAnswer newQA = QuestionAnswer.fromJson(qa);
+                qaList.add(newQA);
+            });
+          });
+          print(qaList[0].question);
+        }
+
+
+      }
+
+
+
+    }
+
     setState(() {
       _log += text + "\n";
       Timer(

@@ -34,6 +34,7 @@ class _CoursesPageState extends State<CoursesPage> {
     super.initState();
 
     isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
+    courseList.clear();
 
     aqService.loadData().then((jsonString) {
       final Map<String, dynamic> courseMap = json.decode(jsonString);
