@@ -29,7 +29,7 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
           name: 'class_lectures',
           builder: (BuildContext context, GoRouterState state) {
             return ClassesPage(
-              classID: state.queryParams["classID"],
+              groupID: state.queryParams["groupID"],
             );
           },
           routes: [

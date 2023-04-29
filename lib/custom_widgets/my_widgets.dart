@@ -246,14 +246,15 @@ class AnyQuestionsListTile extends StatelessWidget {
 
 
 class AnyQuestionsCourseListTile extends StatelessWidget {
-  AnyQuestionsCourseListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.selectedLectureID, required this.goToLocation}) : super(key: key);
+  AnyQuestionsCourseListTile({Key? key, required this.title, required this.subtitle, required this.keyParam, required this.valueParam, required this.goToLocation, required this.groupsID}) : super(key: key);
 
   final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
   final String title;
   final String subtitle;
   final String keyParam;
-  final String selectedLectureID;
+  final String valueParam;
   final String goToLocation;
+  final List<String> groupsID;
 
   @override
   Widget build(BuildContext context){
@@ -279,22 +280,20 @@ class AnyQuestionsCourseListTile extends StatelessWidget {
                   context.go(
                       context.namedLocation(goToLocation,
                           queryParams: <String, String>{
-                            keyParam: selectedLectureID
+                            keyParam: value
                           })
                   );
                   // handle menu item selection
                 },
                 // IS_LECTURER NEED TO BE DIFF CUZ IT APPEARS ON BOTH COURSES AND LECTURES INSTEAD OF JUST COURSES
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  PopupMenuItem<String>(
-                    value: 'Edit',
-                    child: Text('Group 1'),
-                  ),
-                  PopupMenuItem<String>(
-                    value: 'Delete',
-                    child: Text('Group 2'),
-                  ),
-                ],
+                itemBuilder: (BuildContext context) {
+                  return groupsID.map((String group) {
+                    return PopupMenuItem<String>(
+                      value: group,
+                        child: Text(group),
+                    );
+                  }).toList();
+                },
               ),
             ],
           ) :
@@ -302,7 +301,7 @@ class AnyQuestionsCourseListTile extends StatelessWidget {
             context.go(
                 context.namedLocation(goToLocation,
                     queryParams: <String, String>{
-                      keyParam: selectedLectureID
+                      keyParam: valueParam
                     })
             );
           }, icon: Icon(Icons.arrow_forward_ios)),

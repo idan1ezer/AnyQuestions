@@ -28,12 +28,10 @@ class AQService {
       // If the server did return a 200 OK response,
       // then parse the JSON.
 
-      print(response.statusCode.runtimeType);
       isConnected = true;
       // final body = json.decode(response.body);
 
-      print("here");
-      sharedPreferences.setBool("isLecturer", false);
+      sharedPreferences.setBool("isLecturer", true);
       // print("body:" + body);
       // if (body["role"] == "STUDENT") {
       //   // sharedPreferences.setBool("isLecturer", false);
@@ -78,6 +76,204 @@ class AQService {
 
       throw Exception('Failed to load courses');
     }
+  }
+
+
+
+
+
+
+  Future<String> loadData() async {
+
+    String jsonData = '''
+    {
+    "0": {
+        "ID": "1111",
+        "name": "Computer Science",
+		"groups": [
+			{
+				"ID": "111111",
+				"courseName": "Computer Science 1",
+				"lecturerID": "LuisBeagle95",
+				"lectures": [
+					{
+						"id": "11111101",
+						"permission": false,
+						"timestamp": "03-05-2023",
+						"summary": [
+							{
+								"id": "11111101QA1",
+								"question": "Who is the best dog?",
+								"answer": "Luis the beagle",
+								"likes": 101,
+								"timestamp": ""
+							},
+							{
+								"id": "11111101QA2",
+								"question": "Who is the best dog asdsadsaf?",
+								"answer": "Always Luis the beagle",
+								"likes": 102,
+								"timestamp": ""
+							},
+							{
+								"id": "11111101QA3",
+								"question": "Who is the best dog lalalala?",
+								"answer": "Forever Luis the beagle",
+								"likes": 555,
+								"timestamp": ""
+							}
+						]
+					
+					},
+					{
+						"id": "11111102",
+						"permission": true,
+						"timestamp": "08-05-2023",
+						"summary": [
+							{
+								"id": "11111102QA1",
+								"question": "Who is the best dog?",
+								"answer": "Luis the beagle",
+								"likes": 55,
+								"timestamp": ""
+							},
+							{
+								"id": "11111102QA2",
+								"question": "Who is the best dog asdsadsaf?",
+								"answer": "Always Luis the beagle",
+								"likes": 66,
+								"timestamp": ""
+							},
+							{
+								"id": "11111102QA3",
+								"question": "Who is the best dog lalalala?",
+								"answer": "Forever Luis the beagle",
+								"likes": 77,
+								"timestamp": ""
+							}
+						]
+					}
+				]
+			},
+			{
+				"ID": "111122",
+				"courseName": "Computer Science 2",
+				"lecturerID": "CharlieBrown99",
+				"lectures": [
+					{
+						"id": "11112201",
+						"permission": true,
+						"timestamp": "13-05-2023",
+						"summary": [
+							{
+								"id": "11112201QA1",
+								"question": "Who is the best dog?",
+								"answer": "Luis the beagle",
+								"likes": 101,
+								"timestamp": ""
+							},
+							{
+								"id": "11112201QA2",
+								"question": "Who is the best dog asdsadsaf?",
+								"answer": "Always Luis the beagle",
+								"likes": 102,
+								"timestamp": ""
+							}
+						]
+					
+					},
+					{
+						"id": "11112202",
+						"permission": true,
+						"timestamp": "17-05-2023",
+						"summary": [
+							{
+								"id": "11112202QA1",
+								"question": "Who is Chalie Brown?",
+								"answer": "Thats so silly question",
+								"likes": 55,
+								"timestamp": ""
+							}
+						]
+					
+					}
+				]
+			}
+		]
+       
+    },
+	
+"1": {
+        "ID": "2222",
+        "name": "Algorithm II",
+		"groups": [
+			{
+				"ID": "222211",
+				"courseName": "Algorithm II 1",
+				"lecturerID": "CharlieBrown99",
+				"lectures": [
+					{
+						"id": "22221101",
+						"permission": false,
+						"timestamp": "22-05-2023",
+						"summary": [
+							{
+								"id": "22221101QA1",
+								"question": "Who is the best dog?",
+								"answer": "Luis the beagle",
+								"likes": 181,
+								"timestamp": ""
+							},
+							{
+								"id": "22221101QA2",
+								"question": "Who is the best dog asdsadsaf?",
+								"answer": "Always Luis the beagle",
+								"likes": 19,
+								"timestamp": ""
+							}
+						]
+					
+					},
+					{
+						"id": "22221102",
+						"permission": true,
+						"timestamp": "28-05-2023",
+						"summary": [
+							{
+								"id": "22221102QA1",
+								"question": "Who is the best dog?",
+								"answer": "Luis the beagle",
+								"likes": 155,
+								"timestamp": ""
+							},
+							{
+								"id": "22221102QA2",
+								"question": "Who is the best dog asdsadsaf?",
+								"answer": "Always Luis the beagle",
+								"likes": 626,
+								"timestamp": ""
+							},
+							{
+								"id": "22221102QA3",
+								"question": "Who is the best dog lalalala?",
+								"answer": "Forever Luis the beagle",
+								"likes": 747,
+								"timestamp": ""
+							}
+						]
+					}
+				]
+			}
+		]
+    }
+    }
+''';
+
+
+
+    // Simulate network delay
+    await Future.delayed(Duration(seconds: 2));
+    return jsonData;
   }
 
 

@@ -1,12 +1,12 @@
 class QuestionAnswer {
-  final String ID;
+  final String id;
   final String question;
   final String answer;
   final int likes;
   final String timestamp;
 
   QuestionAnswer(
-      {required this.ID,
+      {required this.id,
       required this.question,
       required this.answer,
       required this.likes,
@@ -14,7 +14,7 @@ class QuestionAnswer {
 
 
   factory QuestionAnswer.fromJson(Map<String, dynamic> json) => QuestionAnswer(
-    ID: json["ID"],
+    id: json["id"],
     question: json["question"],
     answer: json["answer"],
     likes: json["likes"],
@@ -22,7 +22,7 @@ class QuestionAnswer {
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": ID,
+    "id": id,
     "question": question,
     "answer": answer,
     "likes": likes,
@@ -31,7 +31,7 @@ class QuestionAnswer {
 
   @override
   String toString() {
-    return 'Course - \n$ID\t$question\t$answer\t$likes\t$timestamp';
+    return 'Course - \n$id\t$question\t$answer\t$likes\t$timestamp';
   }
 
 }

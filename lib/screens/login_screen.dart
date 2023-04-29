@@ -166,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isConnected) {
       Fluttertoast.showToast(msg: "Logged in successfully!");
-      print(sharedPreferences.getBool("isLecturer"));
       // Navigator.of(context).pop();
       return context.go(
         context.namedLocation('home',)

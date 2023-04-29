@@ -2,6 +2,9 @@ import 'package:any_questions/custom_widgets/my_widgets.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/question_answer.dart';
+import 'courses_page.dart';
+
 class SummaryPage extends StatefulWidget {
   SummaryPage({Key? key, this.lectureID}) : super(key: key);
 
@@ -12,6 +15,23 @@ class SummaryPage extends StatefulWidget {
 }
 
 class _SummaryPageState extends State<SummaryPage> {
+
+  late String lectureID;
+  late String groupID;
+  late String courseID;
+  late List<QuestionAnswer> qaList;
+
+  @override
+  void initState() {
+    super.initState();
+    lectureID = widget.lectureID ?? "";
+    courseID = lectureID.isNotEmpty ? lectureID.substring(0,4) : "";
+    groupID = lectureID.isNotEmpty ? lectureID.substring(0,6) : "";
+
+    qaList = courseList.firstWhere((course) => course.ID == courseID).groups.firstWhere((group) => group.ID == groupID).lectures.firstWhere((lecture) => lecture.id == lectureID).summary;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,15 +53,14 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: ListView(
-                  children: <QuestionAnswerCard> [
-                    QuestionAnswerCard(question: "Who is the best dog?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                    QuestionAnswerCard(question: "Who is lalala?", answer: "Luis the beagle! \nThe one and only \nI know...",),
-                  ],
+                child: ListView.builder(
+                  itemCount: qaList.length,
+                  itemBuilder: (context, index) {
+                    return QuestionAnswerCard(
+                      question: qaList[index].question,
+                      answer: qaList[index].answer,
+                    );
+                  },
                 ),
               ),
             ),

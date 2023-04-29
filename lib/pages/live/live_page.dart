@@ -24,8 +24,8 @@ class _LivePageState extends State<LivePage> {
   String _log = 'output:\n';
   final _listViewController = ScrollController();
   final _eventFormKey = GlobalKey<FormState>();
-  List<QuestionAnswer> qaList = [QuestionAnswer(ID: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
-    QuestionAnswer(ID: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
+  List<QuestionAnswer> qaList = [QuestionAnswer(id: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
+    QuestionAnswer(id: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
 
 
   @override

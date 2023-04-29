@@ -1,27 +1,27 @@
 import 'package:any_questions/models/question_answer.dart';
 
 class Lecture {
-  final String ID;
+  final String id;
   final bool permission;
   final String timestamp;
   final List<QuestionAnswer> summary;
 
   Lecture(
-      {required this.ID,
+      {required this.id,
       required this.permission,
       required this.timestamp,
       required this.summary});
 
 
   factory Lecture.fromJson(Map<String, dynamic> json) => Lecture(
-    ID: json["ID"],
+    id: json["id"],
     permission: json["permission"],
     timestamp: json["timestamp"],
     summary: List<QuestionAnswer>.from(json["summary"].map((x) => QuestionAnswer.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": ID,
+    "id": id,
     "permission": permission,
     "timestamp": timestamp,
     "summary": List<dynamic>.from(summary.map((x) => x.toJson())),
@@ -29,7 +29,7 @@ class Lecture {
 
   @override
   String toString() {
-    return 'Course - \n$ID\t$permission\t$timestamp\t$summary';
+    return 'Course - \n$id\t$permission\t$timestamp\t$summary';
   }
 
 }
