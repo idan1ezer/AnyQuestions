@@ -42,6 +42,13 @@ class _SummaryPageState extends State<SummaryPage> {
           "Summary",
           style: AppTheme.appBarHeaderFontStyle,
         ),
+        actions: [
+          IconButton(onPressed: () {
+
+          },
+              icon: const Icon(Icons.download)
+            ,)
+        ],
       ),
       body: Column(
         children: [
@@ -65,10 +72,10 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
             ),
           ),
-          const Flexible(
-            flex: 1,
-              child: Text("Download")
-          )
+          // const Flexible(
+          //   flex: 1,
+          //     child: Text("Download")
+          // )
         ],
       ),
     );

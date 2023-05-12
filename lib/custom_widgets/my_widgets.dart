@@ -4,15 +4,44 @@ import 'package:go_router/go_router.dart';
 import '../screens/login_screen.dart';
 import '../settings/app_theme.dart';
 
-class QuestionAnswerCard extends StatelessWidget {
-  QuestionAnswerCard({Key? key, required this.question, required this.answer}) : super(key: key);
+class QuestionAnswerCard extends StatefulWidget {
+  QuestionAnswerCard({Key? key, required this.question, required this.answer})
+      : super(key: key);
 
   final String question;
   final String answer;
+
+  @override
+  State<QuestionAnswerCard> createState() => _QuestionAnswerCard();
+
+}
+
+class _QuestionAnswerCard extends State<QuestionAnswerCard> {
+
+  late String question;
+  late String answer;
   final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
   final textFormKey = GlobalKey<FormState>();
   final TextEditingController textQuestionCtrl = TextEditingController();
   final TextEditingController textAnswerCtrl = TextEditingController();
+  late String tempQuestion;
+  late String tempAnswer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    question = widget.question;
+    answer = widget.answer;
+    tempQuestion = question;
+    tempAnswer = answer;
+  }
+
+  @override
+  void dispose() {
+    textQuestionCtrl.dispose();
+    super.dispose();
+  }
 
 
   @override
@@ -96,6 +125,12 @@ class QuestionAnswerCard extends StatelessWidget {
                                 child: TextFormField(
                                   // textDirection: TextDirection.rtl,
                                   controller: textQuestionCtrl,
+                                  // onChanged: (text) {
+                                  //   // tempQuestion = text;
+                                  //   // textQuestionCtrl.text = text;
+                                  //   updateQAText(text, true);
+                                  // },
+                                  // onChanged: _onQuestionTextFieldUpdated,
                                   maxLines: 8,
                                   decoration: InputDecoration(
                                     alignLabelWithHint: true,
@@ -118,6 +153,12 @@ class QuestionAnswerCard extends StatelessWidget {
                                   child: TextFormField(
                                     // textDirection: TextDirection.rtl,
                                     controller: textAnswerCtrl,
+                                    // onChanged: (text) {
+                                    //   // tempAnswer = text;
+                                    //   // textAnswerCtrl.text = text;
+                                    //   updateQAText(text, true);
+                                    // },
+                                    // onChanged: _onAnswerTextFieldUpdated,
                                     maxLines: 8,
                                     decoration: InputDecoration(
                                       alignLabelWithHint: true,
@@ -135,32 +176,11 @@ class QuestionAnswerCard extends StatelessWidget {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(16.0))),
                       actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                              // int isTextChanged = await http.updateQA(textQuestionCtrl.text, textAnswerCtrl.text);
-                              // if (isTextChanged == 200) {
-                              //   textQuestionCtrl.clear();
-                              //   textAnswerCtrl.clear();
-                              //   Navigator.pop(context);
-                              // }
-                          },
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: AppTheme.mainColor)
-                                  )
-                              )
-                          ),
-                          child: Text(
-                            'Apply',
-                            style: AppTheme.buttonFontStyle,
-                          ),
-                        ),
+                        ApplyTextButton(),
                         TextButton(
                           onPressed: () {
-                            textQuestionCtrl.clear();
-                            textAnswerCtrl.clear();
+                            // textQuestionCtrl.clear();
+                            // textAnswerCtrl.clear();
                             Navigator.pop(context, 'Cancel');
                           },
                           style: ButtonStyle(
@@ -189,6 +209,41 @@ class QuestionAnswerCard extends StatelessWidget {
       ),
     );
   }
+
+
+  Widget ApplyTextButton() {
+    return TextButton(
+      onPressed: () async {
+        if (question != textQuestionCtrl.text) {
+          setState(() {
+            question = textQuestionCtrl.text;
+          });
+        }
+        if (tempAnswer != textAnswerCtrl.text) {
+          setState(() {
+            answer = textAnswerCtrl.text;
+          });
+        }
+
+        Navigator.pop(context, 'Apply');
+      },
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: AppTheme.mainColor)
+              )
+          )
+      ),
+      child: Text(
+        'Apply',
+        style: AppTheme.buttonFontStyle,
+      ),
+    );
+  }
+
+
+
 }
 
 
