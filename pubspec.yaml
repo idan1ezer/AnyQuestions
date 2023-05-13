@@ -45,6 +45,7 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   faker: ^2.1.0
   intl: ^0.17.0
+  fl_chart: ^0.62.0
 
 flutter_icons:
   android: "launcher_icon"

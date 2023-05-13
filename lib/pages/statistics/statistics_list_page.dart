@@ -55,6 +55,14 @@ class _StatisticsListPage extends State<StatisticsListPage> {
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: ListTile(
+                    onTap: () {
+                      context.go(
+                          context.namedLocation("questions_asked",
+                              queryParams: <String, String>{
+                                "groupID": groupID
+                              })
+                      );
+                    },
                     minVerticalPadding: 15,
                     title: Text(
                       "Questions Asked",
