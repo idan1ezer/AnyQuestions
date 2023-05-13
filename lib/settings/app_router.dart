@@ -1,5 +1,6 @@
 import 'package:any_questions/pages/my_courses/classes_page.dart';
 import 'package:any_questions/pages/my_courses/summary_page.dart';
+import 'package:any_questions/pages/statistics/statistics_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -44,20 +45,26 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
             ),
           ]
         ),
+        GoRoute(
+            path: 'home_screen/statistics_list_page',
+            name: 'statistics_list',
+            builder: (BuildContext context, GoRouterState state) {
+              return StatisticsListPage(
+                groupID: state.queryParams["groupID"],
+              );
+            },
+            // routes: [
+            //   GoRoute(
+            //     path: 'home_screen/classes_page/summary_page',
+            //     name: 'class_summaries',
+            //     builder: (BuildContext context, GoRouterState state) {
+            //       return SummaryPage(
+            //         lectureID: state.queryParams["lectureID"],
+            //       );
+            //     },
+            //   ),
+            // ]
+        ),
       ]
   ),
-  // GoRoute(
-  //   path: '/register',
-  //   name: 'register',
-  //   builder: (BuildContext context, GoRouterState state) {
-  //     return RegisterScreen();
-  //   },
-  // ),
-  // GoRoute(
-  //   path: '/simple_register',
-  //   name: 'simpleRegister',
-  //   builder: (BuildContext context, GoRouterState state) {
-  //     return SimpleRegisterScreen();
-  //   },
-  // ),
 ]);

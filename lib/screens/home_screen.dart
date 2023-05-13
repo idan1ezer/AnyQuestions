@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../custom_widgets/my_widgets.dart';
 import '../pages/live/live_page.dart';
 import '../pages/my_courses/courses_page.dart';
+import '../pages/statistics/statistics_page.dart';
+import 'login_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -21,10 +23,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  late final bool isLecturer;
   ValueNotifier<int> pageIndex = ValueNotifier(0);
   ValueNotifier<String> title = ValueNotifier("My Courses");
-  final pages = [CoursesPage(), LivePage()];
-  final pageTitles = const ["My Courses", "Live"];
+  late final pages;
+  late final pageTitles;
 
   void _onNavigationItemSelected(index) {
     title.value = pageTitles[index];
@@ -34,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
+    pages = isLecturer ? [CoursesPage(), LivePage(), StatisticsPage()] : [CoursesPage(), LivePage()];
+    pageTitles = isLecturer ? ["My Courses", "Live", "Statistics"] : ["My Courses", "Live"];
   }
 
   Future<bool> showExitPopup() async {
@@ -88,6 +94,8 @@ class _BottomNavigationBarState extends State<_BottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
+
     return Card(
       color: AppTheme.bottomNavBarColor,
       elevation: 0,
@@ -114,6 +122,14 @@ class _BottomNavigationBarState extends State<_BottomNavigationBar> {
                 isSelected: (selectedIndex == 1),
                 onTap: handleItemSelected,
               ),
+              if (isLecturer)
+                _NavigationBarItem(
+                  index: 2,
+                  label: "Statistics",
+                  icon: Icons.auto_graph,
+                  isSelected: (selectedIndex == 2),
+                  onTap: handleItemSelected,
+                ),
             ],
           ),
         ),

@@ -35,6 +35,7 @@ class AQService {
       // final body = json.decode(response.body);
 
       sharedPreferences.setBool("isLecturer", true);
+      // sharedPreferences.setBool("isLecturer", false);
       // print("body:" + body);
       // if (body["role"] == "STUDENT") {
       //   // sharedPreferences.setBool("isLecturer", false);
