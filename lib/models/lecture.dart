@@ -13,12 +13,21 @@ class Lecture {
       required this.summary});
 
 
-  factory Lecture.fromJson(Map<String, dynamic> json) => Lecture(
-    id: json["id"],
-    permission: json["permission"],
-    timestamp: json["timestamp"],
-    summary: List<QuestionAnswer>.from(json["summary"].map((x) => QuestionAnswer.fromJson(x))),
-  );
+  // factory Lecture.fromJson(Map<String, dynamic> json) => Lecture(
+  //   id: json["id"],
+  //   permission: json["permission"],
+  //   timestamp: json["timestamp"],
+  //   summary: List<QuestionAnswer>.from(json["summary"].map((x) => QuestionAnswer.fromJson(x))),
+  // );
+
+  factory Lecture.fromJson(Map<String, dynamic> json) {
+    return Lecture(
+      id: json['id'],
+      permission: json['permission'],
+      timestamp: json['timestamp'],
+      summary: List<QuestionAnswer>.from(json['summary'].map((s) => QuestionAnswer.fromJson(s))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

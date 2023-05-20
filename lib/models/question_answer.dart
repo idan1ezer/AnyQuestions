@@ -13,13 +13,15 @@ class QuestionAnswer {
       required this.timestamp});
 
 
-  factory QuestionAnswer.fromJson(Map<String, dynamic> json) => QuestionAnswer(
-    id: json["id"],
-    question: json["question"],
-    answer: json["answer"],
-    likes: json["likes"],
-    timestamp: json["timestamp"],
-  );
+  factory QuestionAnswer.fromJson(Map<String, dynamic> json) {
+    return QuestionAnswer(
+      id: json['id'],
+      question: json['question'],
+      answer: json['answer'],
+      likes: json['likes'],
+      timestamp: json['timestamp'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

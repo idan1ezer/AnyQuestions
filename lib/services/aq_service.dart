@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:any_questions/models/question_answer.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +9,8 @@ import 'package:faker/faker.dart';
 
 
 import '../models/course.dart';
+import '../models/group.dart';
+import '../models/lecture.dart';
 import '../screens/login_screen.dart';
 
 
@@ -64,20 +67,10 @@ class AQService {
     );
 
     if (response.statusCode == 200) {
-      List<Course> courseList = [];
 
-      print(response.body);
+      List<Course> courses = List<Course>.from(jsonDecode(response.body).map((course) => Course.fromJson(course)));
 
-      List<Course> courses = jsonDecode(response.body);
-      print(courses);
-      // Map<String, dynamic> courseMap = jsonDecode(response.body);
-      //
-      // courseMap.forEach((key, value) {
-      //   Course newCourse = Course.fromJson(value);
-      //   courseList.insert(0, newCourse);
-      // });
-
-      return courseList;
+      return courses;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.

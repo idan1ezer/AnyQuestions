@@ -10,11 +10,19 @@ class Group {
       required this.lecturerID,
       required this.lectures});
 
-  factory Group.fromJson(Map<String, dynamic> json) => Group(
-    id: json["id"],
-    lecturerID: json["lecturerID"],
-    lectures: List<Lecture>.from(json["lectures"].map((x) => Lecture.fromJson(x))),
-  );
+  // factory Group.fromJson(Map<String, dynamic> json) => Group(
+  //   id: json["id"],
+  //   lecturerID: json["lecturerID"],
+  //   lectures: List<Lecture>.from(json["lectures"].map((x) => Lecture.fromJson(x))),
+  // );
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      id: json["id"],
+      lecturerID: json["lecturerID"],
+      lectures: List<Lecture>.from(json['lectures'].map((lecture) => Lecture.fromJson(lecture))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,

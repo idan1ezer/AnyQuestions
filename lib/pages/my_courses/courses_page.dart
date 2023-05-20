@@ -34,20 +34,24 @@ class _CoursesPageState extends State<CoursesPage> {
   void initState() {
     super.initState();
 
-    aqService.getCourses("SarahJohnson87");
+    courseList.clear();
+    aqService.getCourses("SarahJohnson87").then((courses) {
+      courseList = courses;
+    });
+
 
     isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
-    courseList.clear();
 
-    aqService.loadData().then((jsonString) {
-      final Map<String, dynamic> courseMap = json.decode(jsonString);
-      setState(() {
-        courseMap.forEach((key, value) {
-          Course newCourse = Course.fromJson(value);
-          courseList.insert(0, newCourse);
-        });
-      });
-    });
+
+    // aqService.loadData().then((jsonString) {
+    //   final Map<String, dynamic> courseMap = json.decode(jsonString);
+    //   setState(() {
+    //     courseMap.forEach((key, value) {
+    //       Course newCourse = Course.fromJson(value);
+    //       courseList.insert(0, newCourse);
+    //     });
+    //   });
+    // });
   }
 
 
