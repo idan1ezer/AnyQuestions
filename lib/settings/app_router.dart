@@ -2,6 +2,7 @@ import 'package:any_questions/pages/my_courses/classes_page.dart';
 import 'package:any_questions/pages/my_courses/summary_page.dart';
 import 'package:any_questions/pages/statistics/statistics_list_page.dart';
 import 'package:any_questions/pages/statistics/statistics_types/questions_asked_stats.dart';
+import 'package:any_questions/pages/statistics/statistics_types/time_consumed_stats.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -60,6 +61,15 @@ final GoRouter router = GoRouter(routes: <GoRoute>[
                 name: 'questions_asked',
                 builder: (BuildContext context, GoRouterState state) {
                   return QuestionsAskedStats(
+                    groupID: state.queryParams["groupID"],
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'home_screen/statistics_list_page/time_consumed_stats',
+                name: 'time_consumed',
+                builder: (BuildContext context, GoRouterState state) {
+                  return TimeConsumedStats(
                     groupID: state.queryParams["groupID"],
                   );
                 },

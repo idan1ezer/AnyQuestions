@@ -61,8 +61,8 @@ class _LivePageState extends State<LivePage> {
 
         bool isLive;
 
-        if (courseList.any((course) => course.ID == courseID)) {
-          if (courseList.firstWhere((course) => course.ID == courseID).groups.any((group) => group.ID == groupID)) {
+        if (courseList.any((course) => course.id == courseID)) {
+          if (courseList.firstWhere((course) => course.id == courseID).groups.any((group) => group.id == groupID)) {
             isLive = true;
           }
           else {

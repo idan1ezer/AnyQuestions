@@ -28,7 +28,7 @@ class _SummaryPageState extends State<SummaryPage> {
     courseID = lectureID.isNotEmpty ? lectureID.substring(0,4) : "";
     groupID = lectureID.isNotEmpty ? lectureID.substring(0,6) : "";
 
-    qaList = courseList.firstWhere((course) => course.ID == courseID).groups.firstWhere((group) => group.ID == groupID).lectures.firstWhere((lecture) => lecture.id == lectureID).summary;
+    qaList = courseList.firstWhere((course) => course.id == courseID).groups.firstWhere((group) => group.id == groupID).lectures.firstWhere((lecture) => lecture.id == lectureID).summary;
   }
 
 

@@ -28,7 +28,7 @@ class _ClassesPageState extends State<ClassesPage> {
     groupID = widget.groupID ?? "";
     courseID = groupID.isNotEmpty ? groupID.substring(0,4) : "";
 
-    lecturesList = courseList.firstWhere((course) => course.ID == courseID).groups.firstWhere((group) => group.ID == groupID).lectures;
+    lecturesList = courseList.firstWhere((course) => course.id == courseID).groups.firstWhere((group) => group.id == groupID).lectures;
   }
 
   @override

@@ -32,17 +32,17 @@ class AQService {
       // then parse the JSON.
 
       isConnected = true;
-      // final body = json.decode(response.body);
+      final body = json.decode(response.body);
+      var name = body["username"].split(new RegExp(r"(?<=[a-z])(?=[A-Z])"));
+      String fullName = name[0] + " " + name[1];
 
-      sharedPreferences.setBool("isLecturer", true);
-      // sharedPreferences.setBool("isLecturer", false);
-      // print("body:" + body);
-      // if (body["role"] == "STUDENT") {
-      //   // sharedPreferences.setBool("isLecturer", false);
-      //   sharedPreferences.setBool("isLecturer", true);
-      // } else {
-      //   sharedPreferences.setBool("isLecturer", true);
-      // }
+      if (body["type"] == "LECTURER") {
+        sharedPreferences.setBool("isLecturer", true);
+      }
+      else {
+        sharedPreferences.setBool("isLecturer", false);
+      }
+      sharedPreferences.setString("username", fullName);
 
     } else {
       // If the server did not return a 200 OK response,
@@ -56,7 +56,7 @@ class AQService {
   Future<List<Course>> getCourses(String userName) async {
     final response = await http.get(
       Uri.parse(
-          '${URL}anyquestions/courses/currentCoursesInstances/${userName}'),
+          '${URL}anyQuestions/courses/${userName}'),
       headers: <String, String>{
         'Accept': "application/json; charset=UTF-8",
         // 'Cookie': "application/json; charset=UTF-8",
@@ -66,12 +66,16 @@ class AQService {
     if (response.statusCode == 200) {
       List<Course> courseList = [];
 
-      Map<String, dynamic> courseMap = jsonDecode(response.body);
+      print(response.body);
 
-      courseMap.forEach((key, value) {
-        Course newCourse = Course.fromJson(value);
-        courseList.insert(0, newCourse);
-      });
+      List<Course> courses = jsonDecode(response.body);
+      print(courses);
+      // Map<String, dynamic> courseMap = jsonDecode(response.body);
+      //
+      // courseMap.forEach((key, value) {
+      //   Course newCourse = Course.fromJson(value);
+      //   courseList.insert(0, newCourse);
+      // });
 
       return courseList;
     } else {
@@ -92,12 +96,11 @@ class AQService {
     String jsonData = '''
     {
     "0": {
-        "ID": "1111",
+        "id": "1111",
         "name": "Computer Science",
 		"groups": [
 			{
-				"ID": "111111",
-				"courseName": "Computer Science 1",
+				"id": "111111",
 				"lecturerID": "LuisBeagle95",
 				"lectures": [
 					{
@@ -160,8 +163,7 @@ class AQService {
 				]
 			},
 			{
-				"ID": "111122",
-				"courseName": "Computer Science 2",
+				"id": "111122",
 				"lecturerID": "CharlieBrown99",
 				"lectures": [
 					{
@@ -208,12 +210,11 @@ class AQService {
     },
 	
 "1": {
-        "ID": "2222",
+        "id": "2222",
         "name": "Algorithm II",
 		"groups": [
 			{
-				"ID": "222211",
-				"courseName": "Algorithm II 1",
+				"id": "222211",
 				"lecturerID": "CharlieBrown99",
 				"lectures": [
 					{

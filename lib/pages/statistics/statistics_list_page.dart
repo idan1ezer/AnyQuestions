@@ -88,6 +88,14 @@ class _StatisticsListPage extends State<StatisticsListPage> {
                   ),
                   // color: AppTheme.backgroundColor,
                   child: ListTile(
+                    onTap: () {
+                      context.go(
+                          context.namedLocation("time_consumed",
+                              queryParams: <String, String>{
+                                "groupID": groupID
+                              })
+                      );
+                    },
                     minVerticalPadding: 15,
                     title: Text(
                       "Time consumed",

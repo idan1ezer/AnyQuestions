@@ -84,14 +84,14 @@ class _StatisticsPage extends State<StatisticsPage> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0, right: 10),
                                 child: ListTile(
-                                  title: Text("Group ID - ${courseList[index].groups[index2].ID}"),
+                                  title: Text("Group ID - ${courseList[index].groups[index2].id}"),
                                   subtitle: Text("Lecturer ID - ${courseList[index].groups[index2].lecturerID}"),
                                   trailing: Icon(Icons.arrow_forward_ios),
                                   onTap: () {
                                     context.go(
                                         context.namedLocation("statistics_list",
                                             queryParams: <String, String>{
-                                              "groupID": courseList[index].groups[index2].ID
+                                              "groupID": courseList[index].groups[index2].id
                                             })
                                     );
                                   },

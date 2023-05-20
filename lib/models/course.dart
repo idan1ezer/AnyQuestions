@@ -1,30 +1,30 @@
 import 'group.dart';
 
 class Course {
-  final String ID;
+  final String id;
   final String name;
   final List<Group> groups;
 
   Course(
-      {required this.ID,
+      {required this.id,
         required this.name,
         required this.groups});
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
-    ID: json["ID"],
+    id: json["id"],
     name: json["name"],
     groups: List<Group>.from(json["groups"].map((x) => Group.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": ID,
+    "id": id,
     "name": name,
     "groups": List<dynamic>.from(groups.map((x) => x.toJson())),
   };
 
   @override
   String toString() {
-    return 'Course - \n$ID\t$name\t$groups';
+    return 'Course - \n$id\t$name\t$groups';
   }
 
 }

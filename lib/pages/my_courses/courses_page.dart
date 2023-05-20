@@ -29,9 +29,12 @@ class _CoursesPageState extends State<CoursesPage> {
   AQService aqService = AQService();
   late final bool isLecturer;
 
+
   @override
   void initState() {
     super.initState();
+
+    aqService.getCourses("SarahJohnson87");
 
     isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
     courseList.clear();
@@ -78,9 +81,9 @@ class _CoursesPageState extends State<CoursesPage> {
             itemBuilder: (context, index) {
               return AnyQuestionsCourseListTile(
                 title: courseList[index].name,
-                subtitle: isLecturer ? "LECTURER THAT LOGGED IN NAME" : courseList[index].groups[0].lecturerID,
+                subtitle: isLecturer ? sharedPreferences.getString("username") ?? "Lecturer" : courseList[index].groups[0].lecturerID,
                 keyParam: "groupID",
-                valueParam: courseList[index].groups[0].ID,
+                valueParam: courseList[index].groups[0].id,
                 goToLocation: "class_lectures",
                 groupsID: isLecturer ? getGroupsID(courseList[index].groups) : [],
               );
@@ -95,7 +98,7 @@ class _CoursesPageState extends State<CoursesPage> {
     List<String> groupIDList = [];
 
     for (Group group in groups) {
-      groupIDList.add(group.ID);
+      groupIDList.add(group.id);
     }
     return groupIDList;
   }
