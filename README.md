@@ -50,25 +50,15 @@ A: The Class Assistant mobile application is developed using the Flutter framewo
 **Q: Is the Class Assistant software open source?**\
 A: Yes, the Class Assistant software is open source. You can find the project repository on GitHub under an open source license.
 
-
-## How to Use
-1. Launch the app on your mobile device or emulator.
-2. Sign in with your credentials or create a new account.
-3. Navigate through the courses, groups, and classes to view the questions and answers.
-4. Use the search functionality to find specific topics or questions.
-5. Access the statistics section to analyze question patterns and overall engagement.
-
-
-
-
+</br>
+</br>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/59417326/236693016-1b33aaa3-e06f-4a8f-9913-a81998aa5e21.png">
+  <img src="https://github.com/idan1ezer/AnyQuestions/assets/59417326/0e25e533-5b8e-4238-b223-663a03624e7d" height = 500> &emsp;
+  <img src="https://github.com/idan1ezer/AnyQuestions/assets/59417326/2e627af7-9182-4405-8bb5-d8ab34d8a405" height = 500> &emsp;
+  <img src="https://github.com/idan1ezer/AnyQuestions/assets/59417326/36b4fa1c-c131-4bb2-a934-14910afad8d2" height = 500>
 </p>
 
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/59417326/236693018-e35f002f-ab4f-43e5-8529-2f27976985a0.png">
-</p>
 
 
 
