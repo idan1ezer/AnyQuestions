@@ -49,7 +49,7 @@ class _TimeConsumedStats extends State<TimeConsumedStats> {
         backgroundColor: AppTheme.appBarColor,
         centerTitle: true,
         title: Text(
-          "Questions Asked",
+          "Time Consumed",
           style: AppTheme.appBarHeaderFontStyle,
         ),
       ),

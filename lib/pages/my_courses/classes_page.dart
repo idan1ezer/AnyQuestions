@@ -52,7 +52,7 @@ class _ClassesPageState extends State<ClassesPage> {
               itemCount: lecturesList.length,
               itemBuilder: (context, index) {
                 return AnyQuestionsListTile(
-                  title: "Lecture $index",
+                  title: "Lecture ${index+1}",
                   subtitle: lecturesList[index].timestamp,
                   keyParam: "lectureID",
                   selectedLectureID: lecturesList[index].id,

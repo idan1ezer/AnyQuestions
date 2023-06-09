@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:any_questions/models/group.dart';
@@ -14,6 +15,7 @@ import '../../screens/login_screen.dart';
 
 
 List<Course> courseList = [];
+bool isLoading = true;
 
 class CoursesPage extends StatefulWidget {
   const CoursesPage({Key? key}) : super(key: key);
@@ -29,29 +31,38 @@ class _CoursesPageState extends State<CoursesPage> {
   AQService aqService = AQService();
   late final bool isLecturer;
 
+  Stream<List<Course>> getCoursesStream() async* {
+    courseList = await aqService.getCourses(sharedPreferences.getString("fullUserName")!);
+    yield courseList;
+  }
+  final StreamController<List<Course>> _coursesController = StreamController<List<Course>>();
+
+
 
   @override
   void initState() {
     super.initState();
-
     courseList.clear();
-    aqService.getCourses("SarahJohnson87").then((courses) {
-      courseList = courses;
-    });
-
+    _loadCourses();
 
     isLecturer = sharedPreferences.getBool("isLecturer") ?? false;
 
+  }
 
-    // aqService.loadData().then((jsonString) {
-    //   final Map<String, dynamic> courseMap = json.decode(jsonString);
-    //   setState(() {
-    //     courseMap.forEach((key, value) {
-    //       Course newCourse = Course.fromJson(value);
-    //       courseList.insert(0, newCourse);
-    //     });
-    //   });
-    // });
+  void _loadCourses() {
+    getCoursesStream().listen((courses) {
+      // setState(() {
+      //   courseList = courses;
+      // });
+      _coursesController.add(courses);
+      isLoading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _coursesController.close();
+    super.dispose();
   }
 
 
@@ -80,17 +91,29 @@ class _CoursesPageState extends State<CoursesPage> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: ListView.builder(
-            itemCount: courseList.length,
-            itemBuilder: (context, index) {
-              return AnyQuestionsCourseListTile(
-                title: courseList[index].name,
-                subtitle: isLecturer ? sharedPreferences.getString("username") ?? "Lecturer" : courseList[index].groups[0].lecturerID,
-                keyParam: "groupID",
-                valueParam: courseList[index].groups[0].id,
-                goToLocation: "class_lectures",
-                groupsID: isLecturer ? getGroupsID(courseList[index].groups) : [],
-              );
+          child: StreamBuilder<List<Course>>(
+            stream: _coursesController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final courseList = snapshot.data!;
+                return ListView.builder(
+                  itemCount: courseList.length,
+                  itemBuilder: (context, index) {
+                    return AnyQuestionsCourseListTile(
+                      title: courseList[index].name,
+                      subtitle: isLecturer ? sharedPreferences.getString("username") ?? "Lecturer" : courseList[index].groups[0].lecturerID,
+                      keyParam: "groupID",
+                      valueParam: courseList[index].groups[0].id,
+                      goToLocation: "class_lectures",
+                      groupsID: isLecturer ? getGroupsID(courseList[index].groups) : [],
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error loading courses: ${snapshot.error}');
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
             },
           ),
         ),

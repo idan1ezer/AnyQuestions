@@ -6,6 +6,7 @@ import 'package:any_questions/custom_widgets/my_widgets.dart';
 import 'package:any_questions/pages/my_courses/courses_page.dart';
 import 'package:any_questions/settings/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
@@ -29,8 +30,6 @@ class _LivePageState extends State<LivePage> {
   final _eventFormKey = GlobalKey<FormState>();
   AQService aqService = AQService();
   List<QuestionAnswer> qaList = [];
-  // List<QuestionAnswer> qaList = [QuestionAnswer(id: "11", question: "asdsad", answer: "asdsada", likes: 1, timestamp: "10/12/21"),
-  //   QuestionAnswer(id: "12", question: "mthgjmgh", answer: "gfhhs", likes: 12, timestamp: "12/11/22")];
 
 
   @override
@@ -42,10 +41,10 @@ class _LivePageState extends State<LivePage> {
   }
 
 
-  void log(String text) {
+  Future<void> log(String text) async {
 
     // need to implement here the new QA list API.
-    print("LOG: $text");
+    // print("LOG: $text");
 
     if (text.contains("eventName: new-question")) {
       RegExp regExp = RegExp(r'"message": "');
@@ -54,7 +53,7 @@ class _LivePageState extends State<LivePage> {
       if (match != null) {
         int index = match.start + 12;
         String lectureID = text.substring(index,text.length-18);
-        print(lectureID);
+        // print(lectureID);
 
         String courseID = lectureID.substring(0,4);
         String groupID = lectureID.substring(0,6);
@@ -74,14 +73,16 @@ class _LivePageState extends State<LivePage> {
         }
 
         if (isLive) {
-          aqService.loadQA().then((jsonString) {
-            final dynamic qa = json.decode(jsonString);
-            setState(() {
-                QuestionAnswer newQA = QuestionAnswer.fromJson(qa);
-                qaList.add(newQA);
-            });
-          });
-          print(qaList[0].question);
+          // aqService.loadQA().then((jsonString) {
+          //   final dynamic qa = json.decode(jsonString);
+          //   setState(() {
+          //       QuestionAnswer newQA = QuestionAnswer.fromJson(qa);
+          //       qaList.add(newQA);
+          //   });
+          // });
+          // print(qaList[0].question);
+          qaList = await aqService.loadLectureQA(lectureID);
+          Fluttertoast.showToast(msg: "Live - new QA");
         }
 
 
